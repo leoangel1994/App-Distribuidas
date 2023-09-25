@@ -17,7 +17,7 @@ paths:
   /inmobiliarias/registro:
     post:
       tags:
-        - inmobiliarias
+        - Inmobiliarias
       summary: Registrar una nueva cuenta de inmobiliaria
       requestBody:
         required: true
