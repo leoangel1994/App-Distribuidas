@@ -12,7 +12,7 @@ info:
     https://swagger.io/blog/api-design/api-design-best-practices/#:~:text=There's%20no%20rule%20on%20keeping,advisable%20to%20keep%20collections%20plural.
     https://swagger.io/specification/
     https://www.restapitutorial.com/httpstatuscodes.html 
-    
+
 
 servers:
   - url: https://api.server.test/v1
@@ -51,7 +51,7 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
-  /realEstate/{realEstateid}:
+  /realEstate/{realEstateId}:
     put:
       tags:
         - realEstate
@@ -126,6 +126,18 @@ paths:
           description: Unauthorized. Credenciales incorrectas
         '500':
           description: Internal Server Error. Error en el servidor
+
+  /realEstate/logout:
+    get:
+      tags:
+        - realEstate
+      summary: Deslogea a la inmobiliaria actualmente logeado
+      description: ''
+      operationId: logoutRealEstate
+      parameters: []
+      responses:
+        default:
+          description: successful operation
     
   /users:
     post:
@@ -202,7 +214,43 @@ paths:
           description: Unauthorized. No autorizado para dar de baja esta cuenta
         '500':
           description: Internal Server Error. Error en el servidor
-
+    
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Iniciar sesión con un usuario registrado
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatosRegistroUsuarioPublico'
+      responses:
+        '200':
+          description: Inicio de sesión exitoso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenAutenticacionGoogle'
+        '401':
+          description: Unauthorized. Credenciales incorrectas
+        '500':
+          description: Internal Server Error. Error en el servidor 
+   
+   
+  /users/logout:
+    get:
+      tags:
+        - realEstate
+      summary: Deslogea al usuario actualmente logeado
+      description: ''
+      operationId: logoutRealEstate
+      parameters: []
+      responses:
+        default:
+          description: successful operation
   /homes:
     get:
       tags:
@@ -230,7 +278,6 @@ paths:
           required: false
           schema:
             type: string
-        # Define aquí los parámetros de consulta adicionales
       responses:
         '200':
           description: Lista de propiedades que coinciden con los filtros
@@ -239,7 +286,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Propiedad'
+                  $ref: '#/components/schemas/Home'
         '500':
           description: Internal Server Error. Error en el servidor
 
@@ -350,13 +397,10 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Propiedad'
+                  $ref: '#/components/schemas/Home'
         '500':
           description: Internal Server Error. Error en el servidor
 
-
-
-# ... Otros endpoints ...
 
 components:
   schemas:
@@ -369,6 +413,11 @@ components:
     DatosRegistroInmobiliaria:
       type: object
       properties:
+        id:
+          type: integer
+          format: integer64
+        realEstateId:
+          type: string
         nombreFantasia:
           type: string
         direccionCorreo:
@@ -396,9 +445,14 @@ components:
         id:
           type: string
           
-    Propiedad:
+    Home:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
+        homeId:
+          type: string
         direccion:
           type: object
           properties:
@@ -436,18 +490,25 @@ components:
               type: number
             descubiertos:
               type: number
-        # Define el resto de las propiedades aquí
 
     DatosRegistroUsuarioPublico:
       type: object
       properties:
         datosGoogle:
           type: object
-          # Define aquí la estructura de datos obtenidos de Google
+          
 
     DatosPerfilUsuarioPublico:
       type: object
-      # Define aquí el esquema para editar el perfil de usuario público
+      properties:
+        id:
+          type: integer
+          format: integer64
+        username:
+          type: string
+        datosGoogle:
+          type: object
+      
 
     DatosContactoPropiedad:
       type: object
