@@ -12,6 +12,7 @@ info:
     https://swagger.io/blog/api-design/api-design-best-practices/#:~:text=There's%20no%20rule%20on%20keeping,advisable%20to%20keep%20collections%20plural.
     https://swagger.io/specification/
     https://www.restapitutorial.com/httpstatuscodes.html 
+    
 
 servers:
   - url: https://api.server.test/v1
