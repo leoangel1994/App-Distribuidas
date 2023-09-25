@@ -252,6 +252,21 @@ paths:
         default:
           description: successful operation
   /homes:
+    post:
+      summary: Agrega una propiedad para publicar
+      description: ''
+      operationId: createHome
+      requestBody:
+        description: Crea un aviso de propiedad
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Home'
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error. Error en el servidor
     get:
       tags:
         - homes
@@ -290,6 +305,8 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
+
+
   /homes/{homeId}/contact:
     post:
       tags:
@@ -326,7 +343,7 @@ paths:
       tags:
         - homes
       summary: Permitir la reserva de una propiedad (pago ficticio)
-      operationId: createPropertyReservation
+      operationId: createHomeReservation
       parameters:
         - name: homeId
           in: path
