@@ -21,7 +21,7 @@ tags:
     description: Operaciones relacionadas con Inmobiliarias
   - name: users
     description: Operaciones relacionadas con Usuarios
-  - name: homes
+  - name: properties
     description: Todo lo relacionado con propiedades inmobiliarias
 
 paths:
@@ -49,15 +49,12 @@ paths:
           description: Bad Request. Datos de entrada inválidos
         '500':
           description: Internal Server Error. Error en el servidor
-
-  /realEstate/{realEstateid}:
     put:
       tags:
         - realEstate
       summary: Editar los datos de una inmobiliaria existente
-      operationId: updateRealEstate
       parameters:
-        - name: realEstateid
+        - name: id
           in: path
           required: true
           schema:
@@ -85,10 +82,9 @@ paths:
     delete:
       tags:
         - realEstate
-      summary: Eliminar la cuenta de una inmobiliaria
-      operationId: deleteRealEstate
+      summary: Cerrar la cuenta de una inmobiliaria
       parameters:
-        - name: realEstateId
+        - name: id
           in: path
           required: true
           schema:
@@ -126,13 +122,11 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
     
-  /users:
+  /usuarios/registro-google:
     post:
       tags:
         - users
-      summary: Registrar un nuevo usuario 
-      description: Registrar un usuario público utilizando Google
-      operationId: createUser
+      summary: Registrar un usuario público utilizando Google
       requestBody:
         required: true
         content:
@@ -151,14 +145,13 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
-  /users/{username}:
+  /usuarios/{id}:
     put:
       tags:
         - users
       summary: Editar los datos del perfil del usuario público
-      operationId: updateUser
       parameters:
-        - name: username
+        - name: id
           in: path
           required: true
           schema:
@@ -187,9 +180,8 @@ paths:
       tags:
         - users
       summary: Dar de baja la cuenta de un usuario público
-      operationId: deleteUser
       parameters:
-        - name: username
+        - name: id
           in: path
           required: true
           schema:
@@ -202,12 +194,11 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
-  /homes:
+  /propiedades:
     get:
       tags:
-        - homes
+        - properties
       summary: Listar propiedades cercanas a la ubicación del usuario, aplicando filtros de búsqueda
-      operationId: getHomes
       parameters:
         - name: ventaOAlquiler
           in: query
@@ -242,14 +233,13 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
-  /homes/{homeId}/contact:
+  /propiedades/{id}/contacto:
     post:
       tags:
-        - homes
+        - properties
       summary: Contactar a la inmobiliaria que publicó una propiedad
-      operationId: getHomes
       parameters:
-        - name: homeId
+        - name: id
           in: path
           description: ID de la propiedad a contactar
           required: true
@@ -273,14 +263,13 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
-  /homes/{homeId}/reservations:
+  /propiedades/{id}/reserva:
     post:
       tags:
-        - homes
+        - properties
       summary: Permitir la reserva de una propiedad (pago ficticio)
-      operationId: createPropertyReservation
       parameters:
-        - name: homeId
+        - name: id
           in: path
           description: ID de la propiedad a reservar
           required: true
@@ -304,14 +293,13 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
-  /homes/{homeId}/reviews:
+  /propiedades/{id}/calificacion-comentario:
     post:
       tags:
-        - homes
+        - properties
       summary: Permitir que los usuarios califiquen y dejen comentarios sobre una inmobiliaria
-      operationId: createReview
       parameters:
-        - name: homeId
+        - name: id
           in: path
           description: ID de la propiedad a calificar y comentar
           required: true
@@ -335,15 +323,14 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
-  /homes/saved:
+  /propiedades/favoritas:
     get:
       tags:
-        - homes
+        - properties
       summary: Obtener la lista de propiedades favoritas de un usuario
-      operationId: getSavedHomes
       responses:
         '200':
-          description: Lista de properties favoritas
+          description: Lista de propiedades favoritas
           content:
             application/json:
               schema:
