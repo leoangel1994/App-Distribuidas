@@ -295,7 +295,7 @@ paths:
       tags:
         - homes
       summary: Contactar a la inmobiliaria que publicó una propiedad
-      operationId: getHomes
+      operationId: getHomesContact
       parameters:
         - name: homeId
           in: path
