@@ -6,17 +6,18 @@ servers:
   - url: https://api.server.test/v1
 
 tags:
-  - name: inmobiliaria
+  - name: Inmobiliarias
     description: Operaciones relacionadas con Inmobiliarias
-  - name: usuario
+  - name: Usuarios
     description: Operaciones relacionadas con Usuarios
-  - name: 
+  - name: propiedades
+    description: Todo lo relacionado con propiedades inmobiliarias
 
 paths:
   /inmobiliarias/registro:
     post:
       tags:
-        - inmobiliaria
+        - inmobiliarias
       summary: Registrar una nueva cuenta de inmobiliaria
       requestBody:
         required: true
