@@ -470,6 +470,9 @@ components:
           format: int64
         homeId:
           type: string
+        precio:
+          type: integer
+          format: int64
         direccion:
           type: object
           properties:
@@ -551,4 +554,3 @@ components:
         comentario:
           type: string
           
-
