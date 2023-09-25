@@ -58,7 +58,7 @@ paths:
       summary: Editar los datos de una inmobiliaria existente
       operationId: updateRealEstate
       parameters:
-        - name: realEstateid
+        - name: realEstateId
           in: path
           required: true
           schema:
@@ -246,7 +246,7 @@ paths:
         - realEstate
       summary: Deslogea al usuario actualmente logeado
       description: ''
-      operationId: logoutRealEstate
+      operationId: logoutUsers
       parameters: []
       responses:
         default:
