@@ -11,7 +11,8 @@ info:
     https://github.com/leoangel1994/App-Distribuidas
     https://swagger.io/blog/api-design/api-design-best-practices/#:~:text=There's%20no%20rule%20on%20keeping,advisable%20to%20keep%20collections%20plural.
     https://swagger.io/specification/
-    https://www.restapitutorial.com/httpstatuscodes.html 
+    https://www.restapitutorial.com/httpstatuscodes.html
+    https://swagger.io/docs/specification/describing-parameters/ 
 
 
 servers:
@@ -164,14 +165,14 @@ paths:
         '500':
           description: Internal Server Error. Error en el servidor
 
-  /users/{username}:
+  /users/{userId}:
     put:
       tags:
         - users
       summary: Editar los datos del perfil del usuario público
       operationId: updateUser
       parameters:
-        - name: username
+        - name: userID
           in: path
           required: true
           schema:
@@ -202,7 +203,7 @@ paths:
       summary: Dar de baja la cuenta de un usuario público
       operationId: deleteUser
       parameters:
-        - name: username
+        - name: userID
           in: path
           required: true
           schema:
@@ -243,7 +244,7 @@ paths:
   /users/logout:
     get:
       tags:
-        - realEstate
+        - users
       summary: Deslogea al usuario actualmente logeado
       description: ''
       operationId: logoutUsers
@@ -273,26 +274,16 @@ paths:
       summary: Listar propiedades cercanas a la ubicación del usuario, aplicando filtros de búsqueda
       operationId: getHomes
       parameters:
-        - name: ventaOAlquiler
+        - name: tags
           in: query
+          description: Filtros de busqueda de propiedades
           required: false
+          explode: true
           schema:
-            type: string
-        - name: tipoPropiedad
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: provincia
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: localidad
-          in: query
-          required: false
-          schema:
-            type: string
+            type: array
+            items:
+              $ref: '#/components/schemas/Tag'
+
       responses:
         '200':
           description: Lista de propiedades que coinciden con los filtros
@@ -470,6 +461,11 @@ components:
           format: int64
         homeId:
           type: string
+        moneda:
+          type: string
+          enum: 
+            - USD
+            - Pesos
         precio:
           type: integer
           format: int64
@@ -510,6 +506,98 @@ components:
               type: number
             descubiertos:
               type: number
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    Tag:
+      type: object
+      properties:
+        operacion:
+          type: string
+          enum:
+            - Compra
+            - Venta
+            - Alquiler
+        tipoPropiedad:
+          type: string
+          enum:
+            - Departamento
+            - Casa
+            - PH
+            - Terreno
+            - Local
+            - Oficina
+            - Galpon
+        moneda:
+          type: string
+          enum:
+            - USD
+            - Pesos
+        ambientes:
+          type: string
+          enum:
+            - Monoambiente
+            - 2 Ambientes
+            - 3 Ambientes
+            - 4 Ambientes
+            - 5 o mas Ambientes
+        dormitorios:
+          type: string
+          enum:
+            - 1 Dormitorio
+            - 2 Dormitorio
+            - 3 Dormitorio
+            - 4 Dormitorio
+            - 5 o mas Dormitorio
+        baños:
+          type: string
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6 o mas
+        amenities:
+          type: string
+          enum:
+            - Piletas
+            - Jacuzzi
+            - Sauna
+            - Sum
+            - Quincho
+            - Sala de juegos
+            - Parrilla
+            - Cancha tenis
+            - Gym
+            - Laundry
+          
+        precio:
+          type: integer
+          properties:
+            minimumPrice:
+              type: integer
+              format: integer64
+            maximumPrice:
+              type: integer
+              format: integer64
+
+        antiguedad:
+          type: string
+          enum:
+            - A estrenar
+            - 10 años
+            - 20 años
+            - 30 años
+            - 40 años o más
+
+        cochera:
+          type: string
+          enum:
+            - Si
+            - No
+
 
     DatosRegistroUsuarioPublico:
       type: object
@@ -524,7 +612,7 @@ components:
         id:
           type: integer
           format: integer64
-        username:
+        userID:
           type: string
         datosGoogle:
           type: object
